@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>uninstall</AssemblyName>
+    <RootNamespace>OtpManager.Setup</RootNamespace>
+    <Version>1.0.0</Version>
+
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Shared with the installer so the two cannot drift apart about what was created. -->
+    <Compile Include="..\installer\Setup.cs" Link="Setup.cs" />
+  </ItemGroup>
+
+</Project>

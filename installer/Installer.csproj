@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>OtpManagerSetup</AssemblyName>
+    <RootNamespace>OtpManager.Setup</RootNamespace>
+    <Version>1.0.0</Version>
+
+    <!-- Native AOT: about a megabyte of overhead, no runtime to install, nothing unpacked at run
+         time. Windows Forms cannot be compiled this way, which is why the app itself is not. -->
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Uninstall.cs" />
+    <EmbeddedResource Include="Payload\app.zip" LogicalName="OtpManager.Setup.Payload.app.zip" />
+  </ItemGroup>
+
+</Project>

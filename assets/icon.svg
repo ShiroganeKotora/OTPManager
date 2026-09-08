@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>OTP Manager</title>
+  <rect x="56.3" y="56.3" width="911.4" height="911.4" rx="225.3" fill="#0078D7"/>
+  <path d="M 663.0 250.4 A 302.1 302.1 0 1 1 361.0 250.4"
+        fill="none" stroke="#FFFFFF" stroke-width="76.8" stroke-linecap="butt"/>
+  <line x1="512.0" y1="512.0" x2="512.0" y2="294.5"
+        stroke="#FFFFFF" stroke-width="71.7" stroke-linecap="butt"/>
+  <circle cx="512.0" cy="512.0" r="35.8" fill="#FFFFFF"/>
+</svg>

@@ -8,7 +8,7 @@ internal sealed class MainForm : Form
     private readonly ListPanel _list = new() { Dock = DockStyle.Fill, AutoScroll = true, BackColor = ListStyle.ListBackground };
     private readonly TextBox _filter = new() { Dock = DockStyle.Fill, PlaceholderText = "絞り込み" };
     private readonly Toast _toast = new();
-    private readonly Label _empty = new() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, ForeColor = Color.FromArgb(140, 140, 140), Visible = false, Text = "アカウントがありません。\n「追加」から登録してください。" };
+    private readonly EmptyCard _empty = new() { Dock = DockStyle.Fill, Visible = false };
     private readonly System.Windows.Forms.Timer _timer = new() { Interval = 50 };
     private readonly List<AccountRow> _rows = [];
     private readonly List<GroupHeader> _headers = [];
@@ -140,7 +140,7 @@ internal sealed class MainForm : Form
         _list.BackColor = _qrCard.Visible ? ListStyle.DimBackground : ListStyle.ListBackground;
         _filter.BackColor = ListStyle.InputBackground;
         _filter.ForeColor = ListStyle.DialogText;
-        _empty.ForeColor = ListStyle.SubtleText;
+        _empty.Invalidate();
         _insertion.BackColor = ListStyle.Highlight;
 
         _qrCard.BackColor = ListStyle.CardFill;
@@ -610,7 +610,7 @@ internal sealed class MainForm : Form
         foreach(var row in _rows) row.Dimmed = dimmed;
         foreach(var header in _headers) header.Dimmed = dimmed;
         _list.BackColor = dimmed ? ListStyle.DimBackground : ListStyle.ListBackground;
-        _empty.ForeColor = dimmed ? ListStyle.Blend(ListStyle.SubtleText, ListStyle.DimBackground, 0.6f) : ListStyle.SubtleText;
+        _empty.Dimmed = dimmed;
         _toolbar.Enabled = !dimmed;
     }
 

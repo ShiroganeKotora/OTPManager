@@ -42,8 +42,27 @@ internal sealed class TrayContext : ApplicationContext
         ExitThread();
     }
 
-    /// <summary>Drawn at run time so the project stays a plain set of .cs files with no binary assets.</summary>
+    /// <summary>
+    /// The application icon, read from the copy embedded in the assembly so the tray, the window and
+    /// the file in Explorer are the same picture at every size. The drawn one below is the fallback
+    /// for a build where the resource is missing.
+    /// </summary>
     private static Icon BuildIcon()
+    {
+        try
+        {
+            using var stream = typeof(TrayContext).Assembly
+                .GetManifestResourceStream("OtpManager.Resources.OtpManager.ico");
+            if(stream != null) return new Icon(stream);
+        }
+        catch(Exception)
+        {
+        }
+        return DrawIcon();
+    }
+
+    /// <summary>A rough copy of the icon, in case the embedded one cannot be read.</summary>
+    private static Icon DrawIcon()
     {
         using var bitmap = new Bitmap(32, 32);
         using(var g = Graphics.FromImage(bitmap))

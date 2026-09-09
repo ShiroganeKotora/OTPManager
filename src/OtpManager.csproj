@@ -8,7 +8,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>OtpManager</AssemblyName>
     <RootNamespace>OtpManager</RootNamespace>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
+    <Product>OTP Manager</Product>
+    <AssemblyTitle>OTP Manager</AssemblyTitle>
+    <Company>Shirogane Kotora</Company>
+    <Copyright>Copyright (C) 2026 Shirogane Kotora</Copyright>
     <ApplicationIcon>Resources\OtpManager.ico</ApplicationIcon>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
     <ApplicationDefaultFont>Yu Gothic UI, 9pt</ApplicationDefaultFont>

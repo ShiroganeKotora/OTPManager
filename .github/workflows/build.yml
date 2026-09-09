@@ -96,13 +96,15 @@ jobs:
           # YAML のブロックスカラーの中では書けない。
           $notesFile = Join-Path $env:RUNNER_TEMP "notes.md"
           Set-Content -Path $notesFile -Encoding utf8 -Value @(
-            "このファイルは GitHub Actions がこのタグのソースからビルドしたものです。",
+            "EN:",
+            "- Built by GitHub Actions from the source at this tag.",
+            "- SHA-256: $hash",
+            "- This application is not code-signed. SmartScreen warns on first run; choose ""More info"" to proceed. Check the hash above to confirm the download has not been altered.",
             "",
-            "OtpManagerSetup.exe",
-            "SHA-256: $hash",
-            "",
-            "このアプリにはコード署名がありません。初回実行時に SmartScreen の警告が出ますが、",
-            "「詳細情報」から実行できます。上のハッシュと照合すれば、配布物が改ざんされていないことを確認できます。"
+            "JA:",
+            "- このタグのソースから GitHub Actions がビルドしたものです。",
+            "- SHA-256: $hash",
+            "- コード署名はありません。初回実行時に SmartScreen の警告が出ますが、「詳細情報」から実行できます。上のハッシュと照合すれば、改ざんされていないことを確認できます。"
           )
 
           gh release view $tag --repo $env:GITHUB_REPOSITORY > $null 2>&1

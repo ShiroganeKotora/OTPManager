@@ -159,6 +159,13 @@ internal sealed class MainForm : Form
     /// <summary>Throws away the rendered backdrop and redraws, after the picture or framing changed.</summary>
     private void RepaintList()
     {
+        // The rows sit on top of the panel and each blits its own slice of the backdrop, so the
+        // panel's background is clipped away wherever a row covers it and may never be painted.
+        // Since that paint is the only other thing that rebuilds the backdrop, a switched picture
+        // would leave every row drawing over a cache that is no longer there - the list goes flat
+        // until something forces a full repaint. Build it here instead, before anyone draws.
+        Background.Prepare(_list.ClientSize);
+
         _list.Invalidate(true);
         foreach(Control control in _list.Controls) control.Invalidate();
     }

@@ -359,16 +359,43 @@ internal sealed class MainForm : Form
     {
         var code = row.CurrentCode;
         if(code.Length == 0) { Say("コードを生成できません。"); return; }
+
+        if(CopyToClipboard(code)) Say($"{row.Account.Title} のコードをコピーしました。");
+    }
+
+    private string _lastCopied = "";
+    private long _lastCopiedAt;
+
+    /// <summary>
+    /// Puts text on the clipboard once, and reports whether it landed.
+    /// <para>
+    /// Two things matter here. Writing the same text twice in quick succession is skipped: a
+    /// double-click raises the click event first, so editing a row would otherwise copy it twice
+    /// back to back. And the retry allowance is kept small, because every retry sleeps on this
+    /// thread - and between handing the text to OLE and flushing it, this process is the clipboard
+    /// owner. A program reading the clipboard in that moment has to call back into this one, and a
+    /// thread asleep in a retry loop cannot answer. The reader then fails with CLIPBRD_E_CANT_OPEN,
+    /// which is what XIVLauncher's paste button reported.
+    /// </para>
+    /// </summary>
+    private bool CopyToClipboard(string text)
+    {
+        var now = Environment.TickCount64;
+        if(text == _lastCopied && now - _lastCopiedAt < 500) return true;
+
         try
         {
-            Clipboard.SetText(code);
-            Say($"{row.Account.Title} のコードをコピーしました。");
+            // copy: true renders the text now and gives ownership back, so nothing has to ask this
+            // process for it later.
+            Clipboard.SetDataObject(text, copy: true, retryTimes: 3, retryDelay: 60);
+            _lastCopied = text;
+            _lastCopiedAt = Environment.TickCount64;
+            return true;
         }
-        catch(Exception)
+        catch(Exception ex)
         {
-            // The clipboard is occasionally held by another process; one retry clears it in practice.
-            try { Clipboard.SetText(code); Say("コピーしました。"); }
-            catch(Exception ex) { Say($"コピーに失敗しました: {ex.Message}"); }
+            Say($"コピーに失敗しました: {ex.Message}");
+            return false;
         }
     }
 
@@ -651,8 +678,8 @@ internal sealed class MainForm : Form
             image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
 
             // A data: URI rather than bare base64, so this app can read its own output straight back.
-            Clipboard.SetText("data:image/png;base64," + Convert.ToBase64String(stream.ToArray()));
-            Say($"{account.Title} のQRコードをbase64でコピーしました。");
+            if(CopyToClipboard("data:image/png;base64," + Convert.ToBase64String(stream.ToArray())))
+                Say($"{account.Title} のQRコードをbase64でコピーしました。");
         }
         catch(Exception ex)
         {
@@ -664,8 +691,8 @@ internal sealed class MainForm : Form
     {
         try
         {
-            Clipboard.SetText(account.ToUri());
-            Say($"{account.Title} のauthURLをコピーしました。");
+            if(CopyToClipboard(account.ToUri()))
+                Say($"{account.Title} のauthURLをコピーしました。");
         }
         catch(Exception ex)
         {

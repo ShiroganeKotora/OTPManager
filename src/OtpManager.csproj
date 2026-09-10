@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>OtpManager</AssemblyName>
     <RootNamespace>OtpManager</RootNamespace>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Product>OTP Manager</Product>
     <AssemblyTitle>OTP Manager</AssemblyTitle>
     <Company>Shirogane Kotora</Company>

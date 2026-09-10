@@ -33,7 +33,7 @@ internal static partial class Setup
     public const string AutostartValue = DisplayName;
     public const string EnvironmentKey = "Environment";
 
-    public const string Version = "1.0.3";
+    public const string Version = "1.0.4";
 
     // --- running instances ------------------------------------------------
 
